@@ -15,7 +15,11 @@ const INITIAL_STATE: UploadState = {
   isValid: false,
 };
 
-export function PhotoUpload() {
+interface PhotoUploadProps {
+  onContinue: (file: File) => void;
+}
+
+export function PhotoUpload({ onContinue }: PhotoUploadProps) {
   const [state, setState] = useState<UploadState>(INITIAL_STATE);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -50,7 +54,8 @@ export function PhotoUpload() {
   }
 
   function handleContinue() {
-    console.log('Upload complete', inputRef.current?.files?.[0]);
+    const file = inputRef.current?.files?.[0];
+    if (file) onContinue(file);
   }
 
   return (
